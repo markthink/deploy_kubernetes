@@ -3,13 +3,13 @@
 
 由于部署的二进制文件比较大，这里只保留部署 bash 脚本和基本的配置文件。
 
-1.gen_cert_kubeconfig.sh 生成 master 配置
-2.gen_master_service.sh 生成 master service 文件
-3.gen_master_start.sh 启动 master 
-4.add_node_service.sh 生成节点配置
-5.add_node_start.sh 启动节点
-6.gen_node_service.sh 生成 master工作节点配置
-7.gen_node_start.sh 启动 master 节点
+- 1.gen_cert_kubeconfig.sh 生成 master 配置
+- 2.gen_master_service.sh 生成 master service 文件
+- 3.gen_master_start.sh 启动 master 
+- 4.add_node_service.sh 生成节点配置
+- 5.add_node_start.sh 启动节点
+- 6.gen_node_service.sh 生成 master工作节点配置
+- 7.gen_node_start.sh 启动 master 节点
 
 ## etcd 测试
 
