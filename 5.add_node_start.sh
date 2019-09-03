@@ -14,7 +14,7 @@ SYSTEMD_DIR=$BASE_DIR/files/$REMOTE_NODE
 scp $BIN_PATH/k8s_v1.15.3/hyperkube ${HOSTNAME_WORKER}:~/
 ssh $HOSTNAME_WORKER "sudo chmod +x ~/hyperkube && sudo cp -rf  ~/hyperkube /usr/bin \
   && sudo apt update \
-  && sudo apt install socat conntrack resolvconf ipvsadm docker.io -y"
+  && sudo apt install socat conntrack resolvconf ipvsadm ipset jq sysstat docker.io -y"
 
 scp -r $SYSTEMD_DIR ${HOSTNAME_WORKER}:~/
 ssh ${HOSTNAME_WORKER} "sudo mkdir -p /var/lib/kubelet /var/lib/kube-proxy /etc/kubernetes/config /var/run/kubernetes \

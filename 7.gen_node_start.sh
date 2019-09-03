@@ -22,7 +22,7 @@ sudo chmod +x $BIN_PATH/k8s_v1.15.3/hyperkube && sudo cp -rf $BIN_PATH/k8s_v1.15
   /etc/containerd
 
 # docker
-sudo apt update && sudo apt install socat conntrack resolvconf ipvsadm docker.io -y
+sudo apt update && sudo apt install socat conntrack resolvconf ipvsadm ipset jq sysstat docker.io -y
 
 sudo mv $PEM_DIR/${HOSTNAME_MASTER}-key.pem /var/lib/kubelet/ \
   && sudo cp -rf $PEM_DIR/${HOSTNAME_MASTER}.pem /var/lib/kubelet/ \
