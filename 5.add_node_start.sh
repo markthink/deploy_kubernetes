@@ -17,7 +17,7 @@ ssh $HOSTNAME_WORKER "sudo chmod +x ~/hyperkube && sudo cp -rf  ~/hyperkube /usr
   && sudo apt install socat conntrack resolvconf ipvsadm ipset jq sysstat docker.io -y"
 
 scp -r $SYSTEMD_DIR ${HOSTNAME_WORKER}:~/
-ssh ${HOSTNAME_WORKER} "sudo mkdir -p /var/lib/kubelet /var/lib/kube-proxy /etc/kubernetes/config /var/run/kubernetes \
+ssh ${HOSTNAME_WORKER} "sudo mkdir -p /var/lib/kubelet /var/lib/kube-proxy /etc/kubernetes/config /etc/kubernetes/manifest /var/run/kubernetes \
   && sudo cp -rf ~/$REMOTE_NODE/ca.pem /etc/kubernetes/config \
   && sudo cp -rf ~/$REMOTE_NODE/${HOSTNAME_WORKER}-key.pem /var/lib/kubelet/ \
   && sudo cp -rf ~/$REMOTE_NODE/${HOSTNAME_WORKER}.pem /var/lib/kubelet/ \

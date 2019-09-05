@@ -18,6 +18,7 @@ sudo chmod +x $BIN_PATH/k8s_v1.15.3/hyperkube && sudo cp -rf $BIN_PATH/k8s_v1.15
   && sudo mkdir -p /var/lib/kubelet \
   /var/lib/kube-proxy \
   /etc/kubernetes/config \
+  /etc/kubernetes/manifest \
   /var/run/kubernetes \
   /etc/containerd
 
