@@ -14,7 +14,7 @@ REMOTE_SERVICE=tmp_service
 PEM_DIR=$BASE_DIR/files/$REMOTE_PEM
 SYSTEMD_DIR=$BASE_DIR/files/$REMOTE_SERVICE
 
-sudo chmod +x $BIN_PATH/k8s_v1.15.3/hyperkube && sudo cp -rf $BIN_PATH/k8s_v1.15.3/hyperkube /usr/bin \
+sudo chmod +x $BIN_PATH/k8s_v1.16.2/hyperkube && sudo cp -rf $BIN_PATH/k8s_v1.16.2/hyperkube /usr/bin \
   && sudo mkdir -p /var/lib/kubelet \
   /var/lib/kube-proxy \
   /etc/kubernetes/config \

@@ -3,7 +3,7 @@
 # 执行环境
 #   - 要求安装 cfssl/kubectl
 # sudo chmod +x deploy_k8s_bin/cfssl/* && sudo cp deploy_k8s_bin/cfssl/* /usr/bin
-# sudo chmod +x deploy_k8s_bin/k8s_v1.15.3/* && sudo cp deploy_k8s_bin/k8s_v1.15.3/* /usr/bin
+# sudo chmod +x deploy_k8s_bin/k8s_v1.16.2/* && sudo cp deploy_k8s_bin/k8s_v1.16.2/* /usr/bin
 # 配置 kubectl 别名
 # echo "alias kubectl='hyperkube kubectl'" >> ~/.bashrc && source  ~/.bashrc
 # echo -e \"172.16.90.29 cka-19\n172.16.90.30 cka-20\" >> /etc/hosts

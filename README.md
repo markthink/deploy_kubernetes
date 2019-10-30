@@ -63,4 +63,7 @@ sudo systemctl daemon-reload \
   && sudo systemctl stop docker
 
 rm -rf /etc/kubernetes && rm -rf /var/lib/kubelet && rm -rf /var/lib/kube-proxy
+
+sed -i 's/etcd_v3.3.15/etcd_v3.4.3/g' *.sh
+sed -i 's/k8s_v1.15.3/k8s_v1.16.2/g' *.sh
 ```

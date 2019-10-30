@@ -11,7 +11,7 @@ REMOTE_NODE=tmp_add_node
 SYSTEMD_DIR=$BASE_DIR/files/$REMOTE_NODE
 
 # docker
-scp $BIN_PATH/k8s_v1.15.3/hyperkube ${HOSTNAME_WORKER}:~/
+scp $BIN_PATH/k8s_v1.16.2/hyperkube ${HOSTNAME_WORKER}:~/
 ssh $HOSTNAME_WORKER "sudo chmod +x ~/hyperkube && sudo cp -rf  ~/hyperkube /usr/bin \
   && sudo apt update \
   && sudo apt install socat conntrack resolvconf ipvsadm ipset jq sysstat docker.io -y"
