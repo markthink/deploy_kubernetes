@@ -2,7 +2,7 @@
 # 此文件需要在 Vagrantfile 文件所在目录执行
 # 虚拟机环境定义
 HOSTNAME_MASTER=cka-1
-INTERNAL_IP=192.168.0.2
+INTERNAL_IP=192.168.0.6
 
 POD_CIDR=10.244.0.0/16
 
