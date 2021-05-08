@@ -123,7 +123,7 @@ EOF
 # 调度器配置文件生成
 # https://github.com/kelseyhightower/kubernetes-the-hard-way/issues/427
 cat > kube-scheduler.yaml <<EOF
-apiVersion: kubescheduler.config.k8s.io/v1alpha1
+apiVersion: kubescheduler.config.k8s.io/v1beta1
 kind: KubeSchedulerConfiguration
 clientConnection:
   kubeconfig: "/etc/kubernetes/config/kube-scheduler.kubeconfig"
