@@ -16,8 +16,8 @@ sudo mkdir -p /etc/kubernetes/config \
   && sudo cp -rf $PEM_DIR/* /etc/kubernetes/config/
 
 # 分发 Master 证书文件 & 下发服务配置文件 & 下发二进制文件
-sudo chmod +x $BIN_PATH/etcd_v3.4.3/* && sudo cp -rf $BIN_PATH/etcd_v3.4.3/* /usr/bin \
-  && sudo chmod +x $BIN_PATH/k8s_v1.16.2/* && sudo cp -rf $BIN_PATH/k8s_v1.16.2/* /usr/bin \
+sudo chmod +x $BIN_PATH/etcd_v3.5/* && sudo cp -rf $BIN_PATH/etcd_v3.5/* /usr/bin \
+  && sudo chmod +x $BIN_PATH/k8s_v1.21.4/* && sudo cp -rf $BIN_PATH/k8s_v1.21.4/* /usr/bin \
   && sudo mkdir -p /var/lib/etcd && sudo cp -rf $SYSTEMD_DIR/*.service /etc/systemd/system/ \
   && sudo cp -rf $SYSTEMD_DIR/kube-scheduler.yaml /etc/kubernetes/config/kube-scheduler.yaml
 

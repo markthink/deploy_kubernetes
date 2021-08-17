@@ -1,9 +1,9 @@
 #!/bin/bash
 # 此文件需要在 Vagrantfile 文件所在目录执行
 # 虚拟机环境定义
-HOSTNAME_WORKER=cka-2
-INTERNAL_IP=192.168.0.5
-KUBERNETES_PUBLIC_ADDRESS=192.168.0.6
+HOSTNAME_WORKER=cka-3
+INTERNAL_IP=172.16.0.17
+KUBERNETES_PUBLIC_ADDRESS=172.16.0.8
 
 POD_CIDR=10.244.0.0/16
 
@@ -47,24 +47,24 @@ cfssl gencert \
   kube-proxy-csr.json | cfssljson -bare kube-proxy
 
 # 生成 kube-proxy 使用的配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config set-credentials system:kube-proxy \
+kubectl config set-credentials system:kube-proxy \
   --client-certificate=kube-proxy.pem \
   --client-key=kube-proxy-key.pem \
   --embed-certs=true \
   --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:kube-proxy \
   --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
 
 # 生成 kube-proxy 配置文件
 cat > kube-proxy-config.yaml <<EOF
@@ -82,7 +82,7 @@ Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kube-proxy \\
+ExecStart=/usr/bin/kube-proxy \\
   --config=/var/lib/kube-proxy/kube-proxy-config.yaml
 Restart=on-failure
 RestartSec=5
@@ -122,24 +122,24 @@ cfssl gencert \
   ${HOSTNAME_WORKER}-csr.json | cfssljson -bare ${HOSTNAME_WORKER}
 
 # 生成 kubelet 使用的配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
   --certificate-authority=ca.pem \
   --embed-certs=true \
   --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
   --kubeconfig=${HOSTNAME_WORKER}.kubeconfig
 
-hyperkube kubectl config set-credentials system:node:${HOSTNAME_WORKER} \
+kubectl config set-credentials system:node:${HOSTNAME_WORKER} \
   --client-certificate=${HOSTNAME_WORKER}.pem \
   --client-key=${HOSTNAME_WORKER}-key.pem \
   --embed-certs=true \
   --kubeconfig=${HOSTNAME_WORKER}.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:node:${HOSTNAME_WORKER} \
   --kubeconfig=${HOSTNAME_WORKER}.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=${HOSTNAME_WORKER}.kubeconfig
+kubectl config use-context default --kubeconfig=${HOSTNAME_WORKER}.kubeconfig
 
 cat > kubelet-config-${HOSTNAME_WORKER}.yaml <<EOF
 kind: KubeletConfiguration
@@ -169,7 +169,7 @@ Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kubelet \\
+ExecStart=/usr/bin/kubelet \\
   --config=/var/lib/kubelet/kubelet-config.yaml \\
   --image-pull-progress-deadline=2m \\
   --kubeconfig=/var/lib/kubelet/kubeconfig \\

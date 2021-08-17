@@ -2,7 +2,7 @@
 # 此文件需要在 Vagrantfile 文件所在目录执行
 # 虚拟机环境定义
 HOSTNAME_MASTER=cka-1
-INTERNAL_IP=192.168.0.6
+INTERNAL_IP=172.16.0.8
 
 POD_CIDR=10.244.0.0/16
 
@@ -26,7 +26,7 @@ Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kube-proxy \\
+ExecStart=/usr/bin/kube-proxy \\
   --config=/var/lib/kube-proxy/kube-proxy-config.yaml
 Restart=on-failure
 RestartSec=5
@@ -64,7 +64,7 @@ Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kubelet \\
+ExecStart=/usr/bin/kubelet \\
   --config=/var/lib/kubelet/kubelet-config.yaml \\
   --image-pull-progress-deadline=2m \\
   --kubeconfig=/var/lib/kubelet/kubeconfig \\

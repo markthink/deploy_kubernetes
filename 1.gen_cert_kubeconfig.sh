@@ -5,11 +5,11 @@
 # sudo chmod +x deploy_k8s_bin/cfssl/* && sudo cp deploy_k8s_bin/cfssl/* /usr/bin
 # sudo chmod +x deploy_k8s_bin/k8s_v1.16.2/* && sudo cp deploy_k8s_bin/k8s_v1.16.2/* /usr/bin
 # 配置 kubectl 别名
-# echo "alias kubectl='hyperkube kubectl'" >> ~/.bashrc && source  ~/.bashrc
+# echo "alias kubectl='kubectl'" >> ~/.bashrc && source  ~/.bashrc
 # echo -e \"172.16.90.29 cka-19\n172.16.90.30 cka-20\" >> /etc/hosts
 
 HOSTNAME_MASTER=cka-1
-INTERNAL_IP=192.168.0.6
+INTERNAL_IP=172.16.0.8
 KUBERNETES_PUBLIC_ADDRESS=${INTERNAL_IP}
 
 # K8S 集群服务 IP 从服务 CIDR 预分配
@@ -271,102 +271,102 @@ EOF
 # kubeconfig 
 # 为工作节点生成 kubeconfig 配置文件
 # 生成 kube-proxy 配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config set-credentials system:kube-proxy \
+kubectl config set-credentials system:kube-proxy \
   --client-certificate=kube-proxy.pem \
   --client-key=kube-proxy-key.pem \
   --embed-certs=true \
   --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:kube-proxy \
   --kubeconfig=kube-proxy.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
 
 # 生成 Master 节点 kubelet 配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
   --certificate-authority=ca.pem \
   --embed-certs=true \
   --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
   --kubeconfig=${HOSTNAME_MASTER}.kubeconfig
 
-hyperkube kubectl config set-credentials system:node:${HOSTNAME_MASTER} \
+kubectl config set-credentials system:node:${HOSTNAME_MASTER} \
   --client-certificate=${HOSTNAME_MASTER}.pem \
   --client-key=${HOSTNAME_MASTER}-key.pem \
   --embed-certs=true \
   --kubeconfig=${HOSTNAME_MASTER}.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:node:${HOSTNAME_MASTER} \
   --kubeconfig=${HOSTNAME_MASTER}.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=${HOSTNAME_MASTER}.kubeconfig
+kubectl config use-context default --kubeconfig=${HOSTNAME_MASTER}.kubeconfig
 
 
 # 为 Master 节点生成 kube-controller-manager 配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://127.0.0.1:6443 \
     --kubeconfig=kube-controller-manager.kubeconfig
 
-hyperkube kubectl config set-credentials system:kube-controller-manager \
+kubectl config set-credentials system:kube-controller-manager \
   --client-certificate=kube-controller-manager.pem \
   --client-key=kube-controller-manager-key.pem \
   --embed-certs=true \
   --kubeconfig=kube-controller-manager.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:kube-controller-manager \
   --kubeconfig=kube-controller-manager.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig
+kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig
 
 # 为 Master 节点生成 scheduler 配置文件
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://127.0.0.1:6443 \
     --kubeconfig=kube-scheduler.kubeconfig
 
-hyperkube kubectl config set-credentials system:kube-scheduler \
+kubectl config set-credentials system:kube-scheduler \
   --client-certificate=kube-scheduler.pem \
   --client-key=kube-scheduler-key.pem \
   --embed-certs=true \
   --kubeconfig=kube-scheduler.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=system:kube-scheduler \
   --kubeconfig=kube-scheduler.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=kube-scheduler.kubeconfig
+kubectl config use-context default --kubeconfig=kube-scheduler.kubeconfig
 
 # 为 Master 节点生成 admin 配置文件 
-hyperkube kubectl config set-cluster k8smeetup-kubernetes \
+kubectl config set-cluster k8smeetup-kubernetes \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://127.0.0.1:6443 \
     --kubeconfig=admin.kubeconfig
 
-hyperkube kubectl config set-credentials admin \
+kubectl config set-credentials admin \
   --client-certificate=admin.pem \
   --client-key=admin-key.pem \
   --embed-certs=true \
   --kubeconfig=admin.kubeconfig
 
-hyperkube kubectl config set-context default \
+kubectl config set-context default \
   --cluster=k8smeetup-kubernetes \
   --user=admin \
   --kubeconfig=admin.kubeconfig
 
-hyperkube kubectl config use-context default --kubeconfig=admin.kubeconfig
+kubectl config use-context default --kubeconfig=admin.kubeconfig

@@ -2,7 +2,7 @@
 # 此文件需要在 Vagrantfile 文件所在目录执行
 # 虚拟机环境定义
 HOSTNAME_MASTER=cka-1
-INTERNAL_IP=192.168.0.6
+INTERNAL_IP=172.16.0.8
 
 POD_CIDR=10.244.0.0/16
 SERVICE_CRDR=10.32.0.0/24
@@ -40,13 +40,14 @@ WantedBy=multi-user.target
 EOF
 
 # API Server 服务配置生成
+# https://alta3.com/blog/error-invalid-value-apiall-on-kube-apiserver
 cat > kube-apiserver.service <<EOF
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kube-apiserver \\
+ExecStart=/usr/bin/kube-apiserver \\
   --advertise-address=${INTERNAL_IP} \\
   --allow-privileged=true \\
   --apiserver-count=3 \\
@@ -64,15 +65,16 @@ ExecStart=/usr/bin/hyperkube kube-apiserver \\
   --etcd-keyfile=/etc/kubernetes/config/kubernetes-key.pem \\
   --etcd-servers=https://${INTERNAL_IP}:2379 \\
   --event-ttl=1h \\
-  --experimental-encryption-provider-config=/etc/kubernetes/config/encryption-config.yaml \\
+  --encryption-provider-config=/etc/kubernetes/config/encryption-config.yaml \\
   --kubelet-certificate-authority=/etc/kubernetes/config/ca.pem \\
   --kubelet-client-certificate=/etc/kubernetes/config/kubernetes.pem \\
   --kubelet-client-key=/etc/kubernetes/config/kubernetes-key.pem \\
-  --kubelet-https=true \\
-  --runtime-config=api/all \\
+  --runtime-config=api/all=true \\
   --service-account-key-file=/etc/kubernetes/config/service-account.pem \\
   --service-cluster-ip-range=${SERVICE_CRDR} \\
   --service-node-port-range=30000-32767 \\
+  --service-account-signing-key-file=/etc/kubernetes/config/service-account-key.pem \\
+  --service-account-issuer=kubernetes.default.svc \\
   --tls-cert-file=/etc/kubernetes/config/kubernetes.pem \\
   --tls-private-key-file=/etc/kubernetes/config/kubernetes-key.pem \\
   --requestheader-client-ca-file=/etc/kubernetes/config/ca.pem \\
@@ -98,7 +100,7 @@ Description=Kubernetes Controller Manager
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kube-controller-manager \\
+ExecStart=/usr/bin/kube-controller-manager \\
   --address=0.0.0.0 \\
   --leader-elect=true \\
   --allocate-node-cidrs=true \\
@@ -138,7 +140,7 @@ Description=Kubernetes Scheduler
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/bin/hyperkube kube-scheduler \\
+ExecStart=/usr/bin/kube-scheduler \\
   --leader-elect=true \\
   --config=/etc/kubernetes/config/kube-scheduler.yaml \\
   --v=2
