@@ -66,4 +66,7 @@ rm -rf /etc/kubernetes && rm -rf /var/lib/kubelet && rm -rf /var/lib/kube-proxy
 
 sed -i 's/etcd_v3.3.15/etcd_v3.4.3/g' *.sh
 sed -i 's/k8s_v1.15.3/k8s_v1.16.2/g' *.sh
+
+
+ansible all -m lineinfile -a "dest=/etc/resolv.conf regexp='nameserver 127.0.1.1' line='nameserver 10.8.8.8'"
 ```
